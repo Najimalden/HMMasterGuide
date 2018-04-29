@@ -5,14 +5,14 @@
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/backnewcolor"
     tools:context="mrsmaster.hmmasterguide.Splash">
 
 
     <LinearLayout
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
@@ -24,12 +24,13 @@
 
         <TextView
             android:id="@+id/tv"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="MyMasterModuler"
+            android:text="Your personal HMMasterGuide"
             android:textColor="@color/white"
+            android:textAlignment="center"
             android:textSize="23dp"
             android:textStyle="bold" />
 
