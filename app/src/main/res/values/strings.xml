@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">HMMasterGuide</string>
+    <!--\n = Guide wird in die nächste Zeile schreiben-->
+    <string name="app_name">HMMaster\nGuide</string>
+    <string name="my_text"><u>Übersicht der Wahl</u></string>
+
+    <string name="make_an_order">Make an order</string>
+    <string name="dialog_title">Ausgewählter Schwerpunkt</string>
+    <string name="dialog_title1">Ausgewählte Module</string>
+    <string name="ok_label">OK</string>
+    <string name="dismiss_label">Dismiss</string>
+    <string name="clear_all_label">Clear all</string>
+
+    <string-array name="Schwerpunkte">
+        <item>Angewandte Geodäsie</item>
+        <item>Navigation</item>
+        <item>Kartographie</item>
+    </string-array>
+
+    <string-array name="Module">
+        <item>Mobile Navigaton</item>
+        <item>Mobile Kartographie</item>
+        <item>Geo-Monitoring</item>
+    </string-array>
+
 </resources>

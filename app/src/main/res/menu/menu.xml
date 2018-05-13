@@ -2,25 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/item_back"
-        android:icon="@drawable/ic_action_back"
-        android:title="Back"
-        app:showAsAction="always">
+    <item android:title="Planübersicht"
+        android:id="@id/home">
+
+    </item>
+    <item android:title="Schwerpunkt und Module wählen"
+        android:id="@+id/first">
     </item>
 
-    <item
-        android:id="@+id/item_forward"
-        android:icon="@drawable/ic_action_forward"
-        android:title="Forward"
-        app:showAsAction="always">
+        <item android:title="Karte"
+            android:id="@+id/second"></item>
+
+
+
+    <item android:title="Export"
+        android:id="@+id/third">
+
     </item>
 
-    <item
-        android:id="@+id/item_home"
-        android:icon="@drawable/ic_action_home"
-        android:title="Home"
-        app:showAsAction="always">
-    </item>
+
+
+
 
 </menu>
