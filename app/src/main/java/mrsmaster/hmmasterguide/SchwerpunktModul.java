@@ -50,13 +50,16 @@ public class SchwerpunktModul extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schwerpunkte);
 
+
+//      Übergabe aus der Datenbank
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
-        List<String> strDatabaseQuery = databaseAccess.getSchwerpunkte();
-        databaseAccess.close();
+        List<String> strGetSchwerpunkte = databaseAccess.getSchwerpunkte();
 
-        String[] arraySchwerpunkt = new String[strDatabaseQuery.size()];
-        arraySchwerpunkt = strDatabaseQuery.toArray(arraySchwerpunkt);
+
+
+        String[] arraySchwerpunkt = new String[strGetSchwerpunkte.size()];
+        arraySchwerpunkt = strGetSchwerpunkte.toArray(arraySchwerpunkt);
 
 
         btnschwerpunkte = (Button) findViewById(R.id.btnschwerpunkt);
@@ -264,7 +267,7 @@ public class SchwerpunktModul extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         arListmodule.clear();
                         String itemm = "";
-                        for (int i1 = 0; i1 < mUserItemsm.size(); i1++) {
+                        for (int i1 = 1; i1 < mUserItemsm.size(); i1++) {
                             itemm = itemm + listItemsm[mUserItemsm.get(i1)];
                             //                          Array befüllen
                             arListmodule.add(listItemsm[mUserItemsm.get(i1)]);
