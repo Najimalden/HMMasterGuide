@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,24 +20,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-/*        Button hallo = (Button) findViewById(R.id.btnhallo);
-
-       hallo.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               openMain2Activity();
-           }
-       });*/
 
 
 
+
+
+        final Intent intent = new Intent(this, SchwerpunktModul.class);
+
+        Button meinplan = (Button) findViewById(R.id.btnplan);
+
+        meinplan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intent);
+            }
+        });
 
     }
 
-  /*  public void openMain2Activity() {
-        Intent intent = new Intent(this, Main2Activity.class);
-        startActivity(intent);
-    }*/
+//    Aufruf des Menu-Layouts und Anzege der Action bar
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -44,23 +47,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Intent intent = new Intent(this, Main2Activity.class);
-
-
 
         switch (item.getItemId()) {
-            case R.id.item_back:
-                setContentView(R.layout.activity_main);
-                return true;
-            case R.id.item_forward:
-                setContentView(R.layout.activity_main3);
-                return true;
-            case R.id.item_home:
-               //setContentView(R.layout.activity_main);
+            case R.id.home:
+                final Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.first:
+                final Intent intent1 = new Intent(this, SchwerpunktModul.class);
+                startActivity(intent1);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
