@@ -1,9 +1,11 @@
 package mrsmaster.hmmasterguide;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,6 +27,8 @@ public class SchwerpunktModul extends AppCompatActivity {
     String hallo;
     Button btnmodule;
     Button btnschwerpunkte;
+
+    Integer dbid;
 
     String [] listItems;
     String [] listItemsm;
@@ -149,10 +154,34 @@ public class SchwerpunktModul extends AppCompatActivity {
                 mBuilder.setTitle(R.string.dialog_title);
                 mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        mUserItems.add(i);
+                    public void onClick(DialogInterface dialog, int i1) {
+                        mUserItems.add(i1);
+
+                        arListschwerp.clear();
+                        String item = "";
+
+//                        id für db search
+                        dbid = i1 + 1;
+
+
+//                          Array befüllen
+                            arListschwerp.add(listItems[(i1)]);
+
+
+
+
+//                          !!!SingleChoice-Lösung damit der alte wert verschwindet
+                        mUserItems.clear();
+
+
+
+//                      Listview listschwerp wird aktualisiert
+                        arrayAdapter.notifyDataSetChanged();
+
+                        dialog.cancel();
 
                     }
+
                 });
 
 
@@ -160,70 +189,8 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 //              das Schließen des Dialogs durch den Zürück-Button wird verboten
                 mBuilder.setCancelable(false);
-                mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-//                      bevor die neuen Einträge wieder in deas Array geschrieben werden, wird dieses auf empty gesetzt
-                        arListschwerp.clear();
-                        String item = "";
-
-                            for (int i = 0; i < mUserItems.size(); i++) {
-                                item = item + listItems[mUserItems.get(i)];
-//                          Array befüllen
-                                arListschwerp.add(listItems[mUserItems.get(i)]);
-//                           wenn es nicht das letzte Item ist, dann füge ein Komma hinzu
-/*                            if (i != mUserItems.size() - 1) {
-                                item = item + ", ";
-                            }*/
-                            }
 
 
-//                          !!!SingleChoice-Lösung damit der alte wert verschwindet
-                            mUserItems.clear();
-
-
-//                        mItemSelected.setText(item);
-
-//                      Listview listschwerp wird aktualisiert
-                        arrayAdapter.notifyDataSetChanged();
-                    }
-
-
-
-
-                });
-
-
-
-
-
-
-
-
-                mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                mBuilder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i = 0; i < checkedItems.length; i++) {
-                            checkedItems[i] = false;
-                            mUserItems.clear();
-//                            mItemSelected.setText("");
-                            arListschwerp.clear();
-
-
-                        }
-
-                        arrayAdapter.notifyDataSetChanged();
-
-                    }
-
-                });
 
                 AlertDialog mDialog = mBuilder.create();
 
