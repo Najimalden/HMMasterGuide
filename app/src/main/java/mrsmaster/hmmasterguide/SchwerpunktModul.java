@@ -27,6 +27,8 @@ public class SchwerpunktModul extends AppCompatActivity {
     Button btnmodule;
     Button btnschwerpunkte;
 
+    Integer dbid;
+
     String [] listItems;
     String [] listItemsm;
 
@@ -150,22 +152,20 @@ public class SchwerpunktModul extends AppCompatActivity {
                         arListschwerp.clear();
                         String item = "";
 
-                        for (int i = 0; i < mUserItems.size(); i++) {
-                            item = item + listItems[mUserItems.get(i)];
+//                        id für db search
+                        dbid = i1 + 1;
+
+
 //                          Array befüllen
-                            arListschwerp.add(listItems[mUserItems.get(i)]);
-//                           wenn es nicht das letzte Item ist, dann füge ein Komma hinzu
-                            if (i != mUserItems.size() - 1) {
-                                item = item + ", ";
-                            }
-                        }
+                            arListschwerp.add(listItems[(i1)]);
+
+
 
 
 //                          !!!SingleChoice-Lösung damit der alte wert verschwindet
                         mUserItems.clear();
 
 
-//                        mItemSelected.setText(item);
 
 //                      Listview listschwerp wird aktualisiert
                         arrayAdapter.notifyDataSetChanged();
@@ -179,79 +179,10 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 
-
-
 //              das Schließen des Dialogs durch den Zürück-Button wird verboten
                 mBuilder.setCancelable(false);
- /*               mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-//                      bevor die neuen Einträge wieder in deas Array geschrieben werden, wird dieses auf empty gesetzt
-                        arListschwerp.clear();
-                        String item = "";
-
-                            for (int i = 0; i < mUserItems.size(); i++) {
-                                item = item + listItems[mUserItems.get(i)];
-//                          Array befüllen
-                                arListschwerp.add(listItems[mUserItems.get(i)]);
-//                           wenn es nicht das letzte Item ist, dann füge ein Komma hinzu
-                            if (i != mUserItems.size() - 1) {
-                                item = item + ", ";
-                            }
-                            }
 
 
-//                          !!!SingleChoice-Lösung damit der alte wert verschwindet
-                            mUserItems.clear();
-
-
-//                        mItemSelected.setText(item);
-
-//                      Listview listschwerp wird aktualisiert
-                        arrayAdapter.notifyDataSetChanged();
-
-                    }
-
-
-
-
-                });*/
-
-
-
-
-
-
-
-
-
-
-
-
-/*                mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                mBuilder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i = 0; i < checkedItems.length; i++) {
-                            checkedItems[i] = false;
-                            mUserItems.clear();
-//                            mItemSelected.setText("");
-                            arListschwerp.clear();
-
-
-                        }
-
-                        arrayAdapter.notifyDataSetChanged();
-
-                    }
-
-                });*/
 
                 AlertDialog mDialog = mBuilder.create();
 
