@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SchwerpunktModul extends AppCompatActivity {
 
@@ -49,9 +50,13 @@ public class SchwerpunktModul extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schwerpunkte);
 
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+        databaseAccess.open();
+        List<String> strDatabaseQuery = databaseAccess.getSchwerpunkte();
+        databaseAccess.close();
 
-
-
+        String[] arraySchwerpunkt = new String[strDatabaseQuery.size()];
+        arraySchwerpunkt = strDatabaseQuery.toArray(arraySchwerpunkt);
 
 
         btnschwerpunkte = (Button) findViewById(R.id.btnschwerpunkt);
@@ -64,7 +69,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 //        Einträge vom Arrays holen
-        listItems = getResources().getStringArray(R.array.Schwerpunkte);
+        listItems = arraySchwerpunkt;
         checkedItems = new boolean[listItems.length];
 
         listItemsm = getResources().getStringArray(R.array.Module);
