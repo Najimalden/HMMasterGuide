@@ -46,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+//Dadurch kann man mit dem Android-Zurück-Button zum Splash-Screen wechseln
+    @Override
+    public void onBackPressed()
+    {
+
+    }
+
 
 
     @Override
