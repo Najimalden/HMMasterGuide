@@ -20,6 +20,9 @@
         <item>Mobile Navigaton</item>
         <item>Mobile Kartographie</item>
         <item>Geo-Monitoring</item>
+        <item>Projektmanagement</item>
+        <item>Raumanalysen</item>
+        <item>Geodateninfrastruktur</item>
     </string-array>
 
 </resources>

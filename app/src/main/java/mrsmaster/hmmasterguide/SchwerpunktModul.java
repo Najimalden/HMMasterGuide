@@ -1,11 +1,10 @@
 package mrsmaster.hmmasterguide;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -18,13 +17,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SchwerpunktModul extends AppCompatActivity {
 
-    String hallo;
+
     Button btnmodule;
     Button btnschwerpunkte;
 
@@ -35,11 +35,11 @@ public class SchwerpunktModul extends AppCompatActivity {
 
     boolean[] checkedItems;
     boolean[] checkedItemsm;
-//    in das Array wird die Position der checked Items geschriben
+    //    in das Array wird die Position der checked Items geschriben
 //    z.B. bei der Auswahl von item 1 und 3 mUserItems = [0 2]
     ArrayList<Integer> mUserItems = new ArrayList<>();
     ArrayList<Integer> mUserItemsm = new ArrayList<>();
-//    Array für die Schwerpunkte
+    //    Array für die Schwerpunkte
     ArrayList<String> arListschwerp = new ArrayList<>();
     //    Array für die Module
     ArrayList<String> arListmodule = new ArrayList<>();
@@ -56,13 +56,16 @@ public class SchwerpunktModul extends AppCompatActivity {
         setContentView(R.layout.schwerpunkte);
 
 
+
+
+
 //      Übergabe aus der Datenbank
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         List<String> strGetSchwerpunkte = databaseAccess.getSchwerpunkte();
 
 
-
+// Umwandlung von Array to String[]
         String[] arraySchwerpunkt = new String[strGetSchwerpunkte.size()];
         arraySchwerpunkt = strGetSchwerpunkte.toArray(arraySchwerpunkt);
 
@@ -82,10 +85,37 @@ public class SchwerpunktModul extends AppCompatActivity {
 
         listItemsm = getResources().getStringArray(R.array.Module);
         checkedItemsm = new boolean[listItemsm.length];
+//                        neu 0 und 1
+        checkedItemsm[0] = true;
+        checkedItemsm[1] = true;
+        mUserItemsm.add(0);
+        mUserItemsm.add(1);
+
+
+
+
 
 //      ListViews für die Anzeige der Wahl
         listschwerp = (ListView) findViewById(R.id.list_schwerp);
         listmodule = (ListView) findViewById(R.id.list_module);
+
+
+        listmodule.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Ziel des Moduls Geodateninfrastruktur ist es, Kenntnis und Anwendung der wichtigsten Standards und Normen in der Geoinformatik sowie deren technischen Grundlagen zu vermitteln. In diesem Modul sollen die politischen - und rechtlichen Grundlagen der nationalen und internationalen Geodateninfrastrukturen (z.B. INSPIRE) vermittelt werden.";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                }
+                return true;
+            }
+        });
+
 
 
 
@@ -146,6 +176,10 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 
+//!!!!!!!!!!!!!!!!!!Anfang Dialoge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
 //      Button Schwerpunkte
         btnschwerpunkte.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +199,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 //                          Array befüllen
-                            arListschwerp.add(listItems[(i1)]);
+                        arListschwerp.add(listItems[(i1)]);
 
 
 
@@ -210,22 +244,48 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 //      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
 
-
 //      Button Module
         btnmodule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(SchwerpunktModul.this);
+                final AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(SchwerpunktModul.this);
                 mBuilder1.setTitle(R.string.dialog_title1);
                 mBuilder1.setMultiChoiceItems(listItemsm, checkedItemsm, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int positionm, boolean isCheckedm) {
-                        if (isCheckedm) {
-                            mUserItemsm.add(positionm);
-                        } else {
-                            mUserItemsm.remove(Integer.valueOf(positionm));
-                        }
+
+
+
+//
+                    if (checkedItemsm[0] == false || checkedItemsm[1] == false){
+
+                    Context context = getApplicationContext();
+                        CharSequence text = "Die ersten zwei Module sind Pflichtmodule!";
+                        int duration = Toast.LENGTH_LONG;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                        checkedItemsm[0] = true;
+                        checkedItemsm[1] = true;
+
                     }
+
+
+                        if (positionm >= 2) {
+                            if (isCheckedm) {
+                                mUserItemsm.add(positionm);
+                            } else {
+                                mUserItemsm.remove(Integer.valueOf(positionm));
+                            }
+                        }
+
+
+
+//
+                    }
+
+
+
                 });
 
                 mBuilder1.setCancelable(false);
@@ -233,9 +293,13 @@ public class SchwerpunktModul extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         arListmodule.clear();
+
+
+
+
                         String itemm = "";
-                        for (int i1 = 1; i1 < mUserItemsm.size(); i1++) {
-                            itemm = itemm + listItemsm[mUserItemsm.get(i1)];
+                        for (int i1 = 0; i1 < mUserItemsm.size(); i1++) {
+//                            itemm = itemm + listItemsm[mUserItemsm.get(i1)];
                             //                          Array befüllen
                             arListmodule.add(listItemsm[mUserItemsm.get(i1)]);
 //                           wenn es nicht das letzte Item ist, dann füge ein Komma hinzu
@@ -248,6 +312,12 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 //                      Listview listschwerp wird aktualisiert
                         arrayAdapter1.notifyDataSetChanged();
+
+
+//                        neu 0 und 1
+                        checkedItemsm[0] = true;
+                        checkedItemsm[1] = true;
+
                     }
 
 
@@ -261,14 +331,22 @@ public class SchwerpunktModul extends AppCompatActivity {
                     }
                 });
 
+
+
+
                 mBuilder1.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i1 = 0; i1 < checkedItemsm.length; i1++) {
+//                        neu 0 und 1
+                        for (int i1 = 2; i1 < checkedItemsm.length; i1++) {
                             checkedItemsm[i1] = false;
                             mUserItemsm.clear();
 /*//                            mItemSelected.setText("");*/
                             arListmodule.clear();
+                            checkedItemsm[0] = true;
+                            checkedItemsm[1] = true;
+                            mUserItemsm.add(0);
+                            mUserItemsm.add(1);
                         }
 
 
@@ -289,7 +367,10 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
         });
+
     }
+
+
 
 
 
@@ -322,6 +403,8 @@ public class SchwerpunktModul extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+
 
 
 

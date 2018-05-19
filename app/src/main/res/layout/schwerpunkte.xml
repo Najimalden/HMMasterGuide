@@ -7,6 +7,9 @@
     android:background="@color/backnewcolor"
     tools:context="mrsmaster.hmmasterguide.SchwerpunktModul">
 
+
+
+
     <Button
         android:id="@+id/btnschwerpunkt"
         android:layout_width="201dp"
