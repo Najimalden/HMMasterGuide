@@ -274,16 +274,19 @@ public class SchwerpunktModul extends AppCompatActivity {
                 //              Übergabe aus der Datenbank der vorhandenen Module
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
                 databaseAccess.open();
-                List<String> strGetModule       = databaseAccess.getModule(dbid,intSoWiSe);
+                List<String> strGetModule = databaseAccess.getModule(dbid,intSoWiSe);
                 databaseAccess.close();
-
-
+                // Sortierung in Pflichtmodule und Wahlpflichtmodule
+                List<String> compulsoryModuls = strGetModule.subList(0,4);
+                List<String> electoralModuls = strGetModule.subList(4,8);
 
 //              Umwandlung von Array to String[] für die Module
-                String[] arrayModule = new  String[strGetModule.size()];
-                arrayModule = strGetModule.toArray(arrayModule);
+                String[] compulsoryModulsArray = new  String[compulsoryModuls.size()];
+                compulsoryModulsArray = compulsoryModuls.toArray(compulsoryModulsArray);
+                String[] electoralModulsArray = new  String[electoralModuls.size()];
+                electoralModulsArray = electoralModuls.toArray(electoralModulsArray);
 
-                listItemsm = arrayModule;
+                listItemsm = electoralModulsArray;
                 checkedItemsm = new boolean[listItemsm.length];
 //                        neu 0 und 1
                 checkedItemsm[0] = true;
