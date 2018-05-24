@@ -59,15 +59,20 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 
-//      Übergabe aus der Datenbank
+//      Übergabe aus der Datenbank der vorhandenen Schwerpunkte
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         List<String> strGetSchwerpunkte = databaseAccess.getSchwerpunkte();
+//      List<String> strGetModule       = databaseAccess.getModule(1,1);
+        databaseAccess.close();
 
 
-// Umwandlung von Array to String[]
+
+//      Umwandlung von Array to String[] für die Schwerpunkte
         String[] arraySchwerpunkt = new String[strGetSchwerpunkte.size()];
         arraySchwerpunkt = strGetSchwerpunkte.toArray(arraySchwerpunkt);
+//      String[] arrayModule = new  String[strGetModule.size()];
+//      arrayModule = strGetModule.toArray(arrayModule);
 
 
         btnschwerpunkte = (Button) findViewById(R.id.btnschwerpunkt);
@@ -83,14 +88,15 @@ public class SchwerpunktModul extends AppCompatActivity {
         listItems = arraySchwerpunkt;
         checkedItems = new boolean[listItems.length];
 
-        listItemsm = getResources().getStringArray(R.array.Module);
+
+/*      listItemsm = arrayModule;
         checkedItemsm = new boolean[listItemsm.length];
 //                        neu 0 und 1
         checkedItemsm[0] = true;
         checkedItemsm[1] = true;
         mUserItemsm.add(0);
         mUserItemsm.add(1);
-
+*/
 
 
 
@@ -214,6 +220,28 @@ public class SchwerpunktModul extends AppCompatActivity {
 
                         dialog.cancel();
 
+//              Übergabe aus der Datenbank der vorhandenen Module
+                        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
+                        databaseAccess.open();
+                        List<String> strGetModule       = databaseAccess.getModule(dbid,1);
+                        databaseAccess.close();
+
+
+
+//              Umwandlung von Array to String[] für die Module
+                        String[] arrayModule = new  String[strGetModule.size()];
+                        arrayModule = strGetModule.toArray(arrayModule);
+
+                        listItemsm = arrayModule;
+                        checkedItemsm = new boolean[listItemsm.length];
+//                        neu 0 und 1
+                        checkedItemsm[0] = true;
+                        checkedItemsm[1] = true;
+                        mUserItemsm.add(0);
+                        mUserItemsm.add(1);
+
+
+
                     }
 
                 });
@@ -248,6 +276,10 @@ public class SchwerpunktModul extends AppCompatActivity {
         btnmodule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+
                 final AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(SchwerpunktModul.this);
                 mBuilder1.setTitle(R.string.dialog_title1);
                 mBuilder1.setMultiChoiceItems(listItemsm, checkedItemsm, new DialogInterface.OnMultiChoiceClickListener() {
@@ -371,12 +403,6 @@ public class SchwerpunktModul extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
     //    Aufruf des Menu-Layouts und Anzege der Action bar
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -384,8 +410,6 @@ public class SchwerpunktModul extends AppCompatActivity {
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -403,29 +427,7 @@ public class SchwerpunktModul extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
