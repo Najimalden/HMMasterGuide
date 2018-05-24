@@ -28,6 +28,7 @@ public class SchwerpunktModul extends AppCompatActivity {
     Button btnmodule;
     Button btnschwerpunkte;
 
+    Integer intSoWiSe = 1;
     Integer dbid;
 
     String [] listItems;
@@ -55,9 +56,7 @@ public class SchwerpunktModul extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schwerpunkte);
 
-
-
-
+        final Button btnSoWiSe = (Button) findViewById(R.id.btnSoWiSe);
 
 //      Übergabe aus der Datenbank der vorhandenen Schwerpunkte
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
@@ -74,7 +73,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 //      String[] arrayModule = new  String[strGetModule.size()];
 //      arrayModule = strGetModule.toArray(arrayModule);
 
-
+        btnmodule =(Button)findViewById(R.id.btnSoWiSe);
         btnschwerpunkte = (Button) findViewById(R.id.btnschwerpunkt);
         btnmodule = (Button) findViewById(R.id.btnmodule);
 
@@ -220,25 +219,6 @@ public class SchwerpunktModul extends AppCompatActivity {
 
                         dialog.cancel();
 
-//              Übergabe aus der Datenbank der vorhandenen Module
-                        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
-                        databaseAccess.open();
-                        List<String> strGetModule       = databaseAccess.getModule(dbid,1);
-                        databaseAccess.close();
-
-
-
-//              Umwandlung von Array to String[] für die Module
-                        String[] arrayModule = new  String[strGetModule.size()];
-                        arrayModule = strGetModule.toArray(arrayModule);
-
-                        listItemsm = arrayModule;
-                        checkedItemsm = new boolean[listItemsm.length];
-//                        neu 0 und 1
-                        checkedItemsm[0] = true;
-                        checkedItemsm[1] = true;
-                        mUserItemsm.add(0);
-                        mUserItemsm.add(1);
 
 
 
@@ -266,9 +246,23 @@ public class SchwerpunktModul extends AppCompatActivity {
 
         });
 
-
-
-
+//      Botton Sommer-Winter-Semester
+        btnSoWiSe.setTag(1);
+        btnSoWiSe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int status = (Integer) v.getTag();
+                if(status == 0) {
+                    btnSoWiSe.setText("Sommer");
+                    intSoWiSe = 1;
+                    v.setTag(1);
+                } else {
+                    btnSoWiSe.setText("Winter");
+                    intSoWiSe = 2;
+                    v.setTag(0); //pause
+                }
+            }
+        });
 
 //      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
 
@@ -276,6 +270,26 @@ public class SchwerpunktModul extends AppCompatActivity {
         btnmodule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //              Übergabe aus der Datenbank der vorhandenen Module
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
+                databaseAccess.open();
+                List<String> strGetModule       = databaseAccess.getModule(dbid,intSoWiSe);
+                databaseAccess.close();
+
+
+
+//              Umwandlung von Array to String[] für die Module
+                String[] arrayModule = new  String[strGetModule.size()];
+                arrayModule = strGetModule.toArray(arrayModule);
+
+                listItemsm = arrayModule;
+                checkedItemsm = new boolean[listItemsm.length];
+//                        neu 0 und 1
+                checkedItemsm[0] = true;
+                checkedItemsm[1] = true;
+                mUserItemsm.add(0);
+                mUserItemsm.add(1);
 
 
 
@@ -401,6 +415,9 @@ public class SchwerpunktModul extends AppCompatActivity {
         });
 
     }
+
+
+
 
 
     //    Aufruf des Menu-Layouts und Anzege der Action bar
