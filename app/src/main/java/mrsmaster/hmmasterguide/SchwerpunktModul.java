@@ -28,6 +28,7 @@ public class SchwerpunktModul extends AppCompatActivity {
     Button btnmodule;
     Button btnschwerpunkte;
 
+    Integer intModulButtonAlreadyUsed = 1;
     Integer intSoWiSe = 1;
     Integer dbid;
 
@@ -292,7 +293,11 @@ public class SchwerpunktModul extends AppCompatActivity {
                 electoralModulsArray = electoralModuls.toArray(electoralModulsArray);
 
                 listItemsm = electoralModulsArray;
-                checkedItemsm = new boolean[listItemsm.length];
+                listItemsm = electoralModulsArray;
+                if(intModulButtonAlreadyUsed == 1){
+                    checkedItemsm = new boolean[listItemsm.length];
+                    intModulButtonAlreadyUsed = 2;
+                }
 //                        neu 0 und 1
                 checkedItemsm[0] = true;
                 checkedItemsm[1] = true;
