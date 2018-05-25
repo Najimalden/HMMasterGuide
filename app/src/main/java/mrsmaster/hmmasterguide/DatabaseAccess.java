@@ -49,4 +49,50 @@ public class DatabaseAccess {
 
 
     }
+
+    public List<String> getModule(int Schwerpunkt, int Semester) {
+        int ModulA = 0;
+        int ModulB = 0;
+        switch (Schwerpunkt){
+            case 1: ModulA = 2;
+                    ModulB = 3;
+                    break;
+            case 2: ModulA = 1;
+                    ModulB = 3;
+                    break;
+            case 3: ModulA = 1;
+                    ModulB = 2;
+                    break;
+        }
+        List<String> obligatoryList = new ArrayList<>();
+        Cursor obligatoryListCursor = sqLiteDatabase.rawQuery("SELECT Modulname FROM Module where Schwerpunktmodule = "
+                                                                + Schwerpunkt + " AND SoWiSe = " + Semester + " UNION SELECT Modulname FROM Module where Schwerpunktmodule = 4 " +
+                                                                "AND SoWiSe = " + Semester, null);
+        obligatoryListCursor.moveToFirst();
+        while (!obligatoryListCursor.isAfterLast()) {
+            obligatoryList.add(obligatoryListCursor.getString(0));
+            obligatoryListCursor.moveToNext();
+        }
+        obligatoryListCursor.close();
+
+        List<String> electiveList = new ArrayList<>();
+        Cursor electiveCursor = sqLiteDatabase.rawQuery("SELECT Modulname FROM Module where Schwerpunktmodule = "
+                                                        + ModulA + " AND SoWiSe = " + Semester + " UNION SELECT Modulname FROM Module where Schwerpunktmodule = "
+                                                        + ModulB + " AND SoWiSe = " + Semester , null);
+        electiveCursor.moveToFirst();
+        while (!electiveCursor.isAfterLast()) {
+            electiveList.add(electiveCursor.getString(0));
+            electiveCursor.moveToNext();
+        }
+        electiveCursor.close();
+
+        List<String> list = obligatoryList;
+        list.addAll(electiveList);
+
+
+        return list;
+
+
+    }
+
 }

@@ -1,5 +1,6 @@
 package mrsmaster.hmmasterguide;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,30 +12,36 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SchwerpunktModul extends AppCompatActivity {
 
-    String hallo;
+
     Button btnmodule;
     Button btnschwerpunkte;
+
+    Integer intModulButtonAlreadyUsed = 1;
+    Integer intSoWiSe = 1;
+    Integer dbid;
 
     String [] listItems;
     String [] listItemsm;
 
     boolean[] checkedItems;
     boolean[] checkedItemsm;
-//    in das Array wird die Position der checked Items geschriben
+    //    in das Array wird die Position der checked Items geschriben
 //    z.B. bei der Auswahl von item 1 und 3 mUserItems = [0 2]
     ArrayList<Integer> mUserItems = new ArrayList<>();
     ArrayList<Integer> mUserItemsm = new ArrayList<>();
-//    Array für die Schwerpunkte
+    //    Array für die Schwerpunkte
     ArrayList<String> arListschwerp = new ArrayList<>();
     //    Array für die Module
     ArrayList<String> arListmodule = new ArrayList<>();
@@ -50,15 +57,22 @@ public class SchwerpunktModul extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.schwerpunkte);
 
+        final Button btnSoWiSe = (Button) findViewById(R.id.btnSoWiSe);
+
+//      Übergabe aus der Datenbank der vorhandenen Schwerpunkte
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
-        List<String> strDatabaseQuery = databaseAccess.getSchwerpunkte();
+        List<String> strGetSchwerpunkte = databaseAccess.getSchwerpunkte();
         databaseAccess.close();
 
-        String[] arraySchwerpunkt = new String[strDatabaseQuery.size()];
-        arraySchwerpunkt = strDatabaseQuery.toArray(arraySchwerpunkt);
 
 
+//      Umwandlung von Array to String[] für die Schwerpunkte
+        String[] arraySchwerpunkt = new String[strGetSchwerpunkte.size()];
+        arraySchwerpunkt = strGetSchwerpunkte.toArray(arraySchwerpunkt);
+
+
+        btnmodule =(Button)findViewById(R.id.btnSoWiSe);
         btnschwerpunkte = (Button) findViewById(R.id.btnschwerpunkt);
         btnmodule = (Button) findViewById(R.id.btnmodule);
 
@@ -72,12 +86,40 @@ public class SchwerpunktModul extends AppCompatActivity {
         listItems = arraySchwerpunkt;
         checkedItems = new boolean[listItems.length];
 
-        listItemsm = getResources().getStringArray(R.array.Module);
+
+/*      listItemsm = arrayModule;
         checkedItemsm = new boolean[listItemsm.length];
+//                        neu 0 und 1
+        checkedItemsm[0] = true;
+        checkedItemsm[1] = true;
+        mUserItemsm.add(0);
+        mUserItemsm.add(1);
+*/
+
+
+
 
 //      ListViews für die Anzeige der Wahl
         listschwerp = (ListView) findViewById(R.id.list_schwerp);
         listmodule = (ListView) findViewById(R.id.list_module);
+
+
+        listmodule.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Ziel des Moduls Geodateninfrastruktur ist es, Kenntnis und Anwendung der wichtigsten Standards und Normen in der Geoinformatik sowie deren technischen Grundlagen zu vermitteln. In diesem Modul sollen die politischen - und rechtlichen Grundlagen der nationalen und internationalen Geodateninfrastrukturen (z.B. INSPIRE) vermittelt werden.";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                }
+                return true;
+            }
+        });
+
 
 
 
@@ -138,6 +180,10 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 
+//!!!!!!!!!!!!!!!!!!Anfang Dialoge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
 //      Button Schwerpunkte
         btnschwerpunkte.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,10 +192,47 @@ public class SchwerpunktModul extends AppCompatActivity {
                 mBuilder.setTitle(R.string.dialog_title);
                 mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        mUserItems.add(i);
+                    public void onClick(DialogInterface dialog, int i1) {
+                        mUserItems.add(i1);
+
+                        arListschwerp.clear();
+                        String item = "";
+
+//                        id für db search
+                        dbid = i1 + 1;
+
+
+//                          Array befüllen
+                        arListschwerp.add(listItems[(i1)]);
+
+
+
+
+//                          !!!SingleChoice-Lösung damit der alte wert verschwindet
+                        mUserItems.clear();
+
+
+
+//                      Listview listschwerp wird aktualisiert
+                        arrayAdapter.notifyDataSetChanged();
+
+                        dialog.cancel();
+
+                        // Übergabe aus der Datenbank der vorhandenen Module
+                        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
+                        databaseAccess.open();
+                        List<String> strGetModule = databaseAccess.getModule(dbid,intSoWiSe);
+                        databaseAccess.close();
+                        // Auswahl der Pflichtmodule
+                        List<String> compulsoryModuls = strGetModule.subList(0,4);
+
+                        // Umwandlung von Array to String[] für die Module
+                        String[] compulsoryModulsArray = new  String[compulsoryModuls.size()];
+                        compulsoryModulsArray = compulsoryModuls.toArray(compulsoryModulsArray);
+
 
                     }
+
                 });
 
 
@@ -157,70 +240,8 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 //              das Schließen des Dialogs durch den Zürück-Button wird verboten
                 mBuilder.setCancelable(false);
-                mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-//                      bevor die neuen Einträge wieder in deas Array geschrieben werden, wird dieses auf empty gesetzt
-                        arListschwerp.clear();
-                        String item = "";
-
-                            for (int i = 0; i < mUserItems.size(); i++) {
-                                item = item + listItems[mUserItems.get(i)];
-//                          Array befüllen
-                                arListschwerp.add(listItems[mUserItems.get(i)]);
-//                           wenn es nicht das letzte Item ist, dann füge ein Komma hinzu
-/*                            if (i != mUserItems.size() - 1) {
-                                item = item + ", ";
-                            }*/
-                            }
 
 
-//                          !!!SingleChoice-Lösung damit der alte wert verschwindet
-                            mUserItems.clear();
-
-
-//                        mItemSelected.setText(item);
-
-//                      Listview listschwerp wird aktualisiert
-                        arrayAdapter.notifyDataSetChanged();
-                    }
-
-
-
-
-                });
-
-
-
-
-
-
-
-
-                mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                mBuilder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i = 0; i < checkedItems.length; i++) {
-                            checkedItems[i] = false;
-                            mUserItems.clear();
-//                            mItemSelected.setText("");
-                            arListschwerp.clear();
-
-
-                        }
-
-                        arrayAdapter.notifyDataSetChanged();
-
-                    }
-
-                });
 
                 AlertDialog mDialog = mBuilder.create();
 
@@ -234,28 +255,96 @@ public class SchwerpunktModul extends AppCompatActivity {
 
         });
 
-
-
-
+//      Botton Sommer-Winter-Semester
+        btnSoWiSe.setTag(1);
+        btnSoWiSe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int status = (Integer) v.getTag();
+                if(status == 0) {
+                    btnSoWiSe.setText("Sommer");
+                    intSoWiSe = 1;
+                    v.setTag(1);
+                } else {
+                    btnSoWiSe.setText("Winter");
+                    intSoWiSe = 2;
+                    v.setTag(0); //pause
+                }
+            }
+        });
 
 //      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
-
 
 //      Button Module
         btnmodule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(SchwerpunktModul.this);
+
+                // Übergabe aus der Datenbank der vorhandenen Module
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
+                databaseAccess.open();
+                List<String> strGetModule = databaseAccess.getModule(dbid,intSoWiSe);
+                databaseAccess.close();
+                // Auswahl der Wahlpflichtmodule
+                List<String> electoralModuls = strGetModule.subList(4,8);
+
+//              Umwandlung von Array to String[] für die Module
+                String[] electoralModulsArray = new  String[electoralModuls.size()];
+                electoralModulsArray = electoralModuls.toArray(electoralModulsArray);
+
+                listItemsm = electoralModulsArray;
+                listItemsm = electoralModulsArray;
+                if(intModulButtonAlreadyUsed == 1){
+                    checkedItemsm = new boolean[listItemsm.length];
+                    intModulButtonAlreadyUsed = 2;
+                }
+//                        neu 0 und 1
+                checkedItemsm[0] = true;
+                checkedItemsm[1] = true;
+                mUserItemsm.add(0);
+                mUserItemsm.add(1);
+
+
+
+
+                final AlertDialog.Builder mBuilder1 = new AlertDialog.Builder(SchwerpunktModul.this);
                 mBuilder1.setTitle(R.string.dialog_title1);
                 mBuilder1.setMultiChoiceItems(listItemsm, checkedItemsm, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int positionm, boolean isCheckedm) {
-                        if (isCheckedm) {
-                            mUserItemsm.add(positionm);
-                        } else {
-                            mUserItemsm.remove(Integer.valueOf(positionm));
-                        }
+
+
+
+//
+                    if (checkedItemsm[0] == false || checkedItemsm[1] == false){
+
+                    Context context = getApplicationContext();
+                        CharSequence text = "Die ersten zwei Module sind Pflichtmodule!";
+                        int duration = Toast.LENGTH_LONG;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                        checkedItemsm[0] = true;
+                        checkedItemsm[1] = true;
+
                     }
+
+
+                        if (positionm >= 2) {
+                            if (isCheckedm) {
+                                mUserItemsm.add(positionm);
+                            } else {
+                                mUserItemsm.remove(Integer.valueOf(positionm));
+                            }
+                        }
+
+
+
+//
+                    }
+
+
+
                 });
 
                 mBuilder1.setCancelable(false);
@@ -263,9 +352,13 @@ public class SchwerpunktModul extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         arListmodule.clear();
+
+
+
+
                         String itemm = "";
                         for (int i1 = 0; i1 < mUserItemsm.size(); i1++) {
-                            itemm = itemm + listItemsm[mUserItemsm.get(i1)];
+//                            itemm = itemm + listItemsm[mUserItemsm.get(i1)];
                             //                          Array befüllen
                             arListmodule.add(listItemsm[mUserItemsm.get(i1)]);
 //                           wenn es nicht das letzte Item ist, dann füge ein Komma hinzu
@@ -278,6 +371,12 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 //                      Listview listschwerp wird aktualisiert
                         arrayAdapter1.notifyDataSetChanged();
+
+
+//                        neu 0 und 1
+                        checkedItemsm[0] = true;
+                        checkedItemsm[1] = true;
+
                     }
 
 
@@ -291,14 +390,22 @@ public class SchwerpunktModul extends AppCompatActivity {
                     }
                 });
 
+
+
+
                 mBuilder1.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i1 = 0; i1 < checkedItemsm.length; i1++) {
+//                        neu 0 und 1
+                        for (int i1 = 2; i1 < checkedItemsm.length; i1++) {
                             checkedItemsm[i1] = false;
                             mUserItemsm.clear();
 /*//                            mItemSelected.setText("");*/
                             arListmodule.clear();
+                            checkedItemsm[0] = true;
+                            checkedItemsm[1] = true;
+                            mUserItemsm.add(0);
+                            mUserItemsm.add(1);
                         }
 
 
@@ -319,8 +426,8 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
         });
-    }
 
+    }
 
 
 
@@ -333,8 +440,6 @@ public class SchwerpunktModul extends AppCompatActivity {
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -352,27 +457,7 @@ public class SchwerpunktModul extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
