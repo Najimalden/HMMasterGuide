@@ -62,7 +62,6 @@ public class SchwerpunktModul extends AppCompatActivity {
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
         List<String> strGetSchwerpunkte = databaseAccess.getSchwerpunkte();
-//      List<String> strGetModule       = databaseAccess.getModule(1,1);
         databaseAccess.close();
 
 
@@ -70,8 +69,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 //      Umwandlung von Array to String[] für die Schwerpunkte
         String[] arraySchwerpunkt = new String[strGetSchwerpunkte.size()];
         arraySchwerpunkt = strGetSchwerpunkte.toArray(arraySchwerpunkt);
-//      String[] arrayModule = new  String[strGetModule.size()];
-//      arrayModule = strGetModule.toArray(arrayModule);
+
 
         btnmodule =(Button)findViewById(R.id.btnSoWiSe);
         btnschwerpunkte = (Button) findViewById(R.id.btnschwerpunkt);
@@ -219,7 +217,17 @@ public class SchwerpunktModul extends AppCompatActivity {
 
                         dialog.cancel();
 
+                        // Übergabe aus der Datenbank der vorhandenen Module
+                        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
+                        databaseAccess.open();
+                        List<String> strGetModule = databaseAccess.getModule(dbid,intSoWiSe);
+                        databaseAccess.close();
+                        // Auswahl der Pflichtmodule
+                        List<String> compulsoryModuls = strGetModule.subList(0,4);
 
+                        // Umwandlung von Array to String[] für die Module
+                        String[] compulsoryModulsArray = new  String[compulsoryModuls.size()];
+                        compulsoryModulsArray = compulsoryModuls.toArray(compulsoryModulsArray);
 
 
                     }
@@ -271,18 +279,15 @@ public class SchwerpunktModul extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //              Übergabe aus der Datenbank der vorhandenen Module
+                // Übergabe aus der Datenbank der vorhandenen Module
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
                 databaseAccess.open();
                 List<String> strGetModule = databaseAccess.getModule(dbid,intSoWiSe);
                 databaseAccess.close();
-                // Sortierung in Pflichtmodule und Wahlpflichtmodule
-                List<String> compulsoryModuls = strGetModule.subList(0,4);
+                // Auswahl der Wahlpflichtmodule
                 List<String> electoralModuls = strGetModule.subList(4,8);
 
 //              Umwandlung von Array to String[] für die Module
-                String[] compulsoryModulsArray = new  String[compulsoryModuls.size()];
-                compulsoryModulsArray = compulsoryModuls.toArray(compulsoryModulsArray);
                 String[] electoralModulsArray = new  String[electoralModuls.size()];
                 electoralModulsArray = electoralModuls.toArray(electoralModulsArray);
 
