@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,6 +35,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 
     String [] listItems;
     String [] listItemsm;
+    String [] listItemsbasismodule;
 
     boolean[] checkedItems;
     boolean[] checkedItemsm;
@@ -186,7 +188,6 @@ public class SchwerpunktModul extends AppCompatActivity {
                         mUserItems.add(i1);
 
                         arListschwerp.clear();
-                        String item = "";
 
 //                        id für db search
                         dbid = i1 + 1;
@@ -199,7 +200,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 //                          !!!SingleChoice-Lösung damit der alte wert verschwindet
-                        mUserItems.clear();
+//                        mUserItems.clear();
 
 
 
@@ -219,6 +220,8 @@ public class SchwerpunktModul extends AppCompatActivity {
                         // Umwandlung von Array to String[] für die Module
                         String[] compulsoryModulsArray = new  String[compulsoryModuls.size()];
                         compulsoryModulsArray = compulsoryModuls.toArray(compulsoryModulsArray);
+
+                        listItemsbasismodule = compulsoryModulsArray;
 
 
                     }
@@ -303,10 +306,25 @@ public class SchwerpunktModul extends AppCompatActivity {
 
                             if (isCheckedm) {
                                 mUserItemsm.add(positionm);
+                                if (mUserItemsm.size() > 2) {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Sie können nur zwei Module auswählen!";
+                                    int duration = Toast.LENGTH_LONG;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+
+
+
+                                }
+
+
                             } else {
                                 mUserItemsm.remove(Integer.valueOf(positionm));
                             }
                         }
+
 
 
 
@@ -335,6 +353,12 @@ public class SchwerpunktModul extends AppCompatActivity {
                                 itemm = itemm + ", ";
                             }*/
                         }
+
+                        arListmodule.add(listItemsbasismodule[0]);
+                        arListmodule.add(listItemsbasismodule[1]);
+                        arListmodule.add(listItemsbasismodule[2]);
+                        arListmodule.add(listItemsbasismodule[3]);
+
 
 
 //                      Listview listschwerp wird aktualisiert
