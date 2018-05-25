@@ -1,5 +1,6 @@
 package mrsmaster.hmmasterguide;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -94,5 +95,23 @@ public class DatabaseAccess {
 
 
     }
+
+    public boolean setChoosedModuls (List<String> choosedModuls){
+        //Schreibt DB
+        SQLiteDatabase db = openHelper.getWritableDatabase();
+        //Tabelle erstellen
+        String SQL_String = "CREATE TABLE ModuleDesKunden ( " +
+                            " ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            " Modul TEXT )";
+        db.execSQL(SQL_String);
+        ContentValues contenValue = new ContentValues();
+        contenValue.put("Modul",choosedModuls.get(1));
+        //Inhalt in die DB schreiben
+        long  result = db.insert("ModuleDesKunden",null,contenValue);
+        if (result == -1)
+            return false;
+        else
+            return true;
+            }
 
 }

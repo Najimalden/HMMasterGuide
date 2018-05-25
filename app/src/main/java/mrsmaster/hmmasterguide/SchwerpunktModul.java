@@ -269,7 +269,7 @@ public class SchwerpunktModul extends AppCompatActivity {
         btnmodule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                writeToSQLDB();
                 // Übergabe aus der Datenbank der vorhandenen Module
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
                 databaseAccess.open();
@@ -417,6 +417,16 @@ public class SchwerpunktModul extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void writeToSQLDB (){
+        List<String> listToWriteToSQLDB = new ArrayList<String>();
+        listToWriteToSQLDB.add("Raumanalysen und regionale Planungsprozesse");
+        listToWriteToSQLDB.add("Geo-Monitoring");
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
+        databaseAccess.open();
+        databaseAccess.setChoosedModuls(listToWriteToSQLDB);
+        databaseAccess.close();
     }
 }
 

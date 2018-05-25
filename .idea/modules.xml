@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/HMMasterGuide.iml" filepath="$PROJECT_DIR$/HMMasterGuide.iml" />
       <module fileurl="file://C:\Users\Simon\Documents\Master\mobile_kat\github_app_projekt\sicherung\HMMasterGuide_nach_merge_master_branch\HMMasterGuide.iml" filepath="C:\Users\Simon\Documents\Master\mobile_kat\github_app_projekt\sicherung\HMMasterGuide_nach_merge_master_branch\HMMasterGuide.iml" />
-      <module fileurl="file://$PROJECT_DIR$/HMMasterGuide_nach_merge_master_branch.iml" filepath="$PROJECT_DIR$/HMMasterGuide_nach_merge_master_branch.iml" />
       <module fileurl="file://C:\Users\Rie\AndroidStudioProjects\HMMasterGuide\HMMasterGuide_nach_merge_master_branch.iml" filepath="C:\Users\Rie\AndroidStudioProjects\HMMasterGuide\HMMasterGuide_nach_merge_master_branch.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
