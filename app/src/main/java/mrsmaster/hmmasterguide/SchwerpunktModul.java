@@ -87,16 +87,6 @@ public class SchwerpunktModul extends AppCompatActivity {
         checkedItems = new boolean[listItems.length];
 
 
-/*      listItemsm = arrayModule;
-        checkedItemsm = new boolean[listItemsm.length];
-//                        neu 0 und 1
-        checkedItemsm[0] = true;
-        checkedItemsm[1] = true;
-        mUserItemsm.add(0);
-        mUserItemsm.add(1);
-*/
-
-
 
 
 //      ListViews für die Anzeige der Wahl
@@ -298,11 +288,6 @@ public class SchwerpunktModul extends AppCompatActivity {
                     checkedItemsm = new boolean[listItemsm.length];
                     intModulButtonAlreadyUsed = 2;
                 }
-//                        neu 0 und 1
-                checkedItemsm[0] = true;
-                checkedItemsm[1] = true;
-                mUserItemsm.add(0);
-                mUserItemsm.add(1);
 
 
 
@@ -315,22 +300,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 
-//
-                    if (checkedItemsm[0] == false || checkedItemsm[1] == false){
 
-                    Context context = getApplicationContext();
-                        CharSequence text = "Die ersten zwei Module sind Pflichtmodule!";
-                        int duration = Toast.LENGTH_LONG;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                        checkedItemsm[0] = true;
-                        checkedItemsm[1] = true;
-
-                    }
-
-
-                        if (positionm >= 2) {
                             if (isCheckedm) {
                                 mUserItemsm.add(positionm);
                             } else {
@@ -341,7 +311,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 //
-                    }
+
 
 
 
@@ -356,7 +326,6 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
 
-                        String itemm = "";
                         for (int i1 = 0; i1 < mUserItemsm.size(); i1++) {
 //                            itemm = itemm + listItemsm[mUserItemsm.get(i1)];
                             //                          Array befüllen
@@ -367,15 +336,11 @@ public class SchwerpunktModul extends AppCompatActivity {
                             }*/
                         }
 
-//                        mItemSelected.setText(item);
 
 //                      Listview listschwerp wird aktualisiert
                         arrayAdapter1.notifyDataSetChanged();
 
 
-//                        neu 0 und 1
-                        checkedItemsm[0] = true;
-                        checkedItemsm[1] = true;
 
                     }
 
@@ -397,15 +362,10 @@ public class SchwerpunktModul extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
 //                        neu 0 und 1
-                        for (int i1 = 2; i1 < checkedItemsm.length; i1++) {
+                        for (int i1 = 0; i1 < checkedItemsm.length; i1++) {
                             checkedItemsm[i1] = false;
                             mUserItemsm.clear();
-/*//                            mItemSelected.setText("");*/
                             arListmodule.clear();
-                            checkedItemsm[0] = true;
-                            checkedItemsm[1] = true;
-                            mUserItemsm.add(0);
-                            mUserItemsm.add(1);
                         }
 
 
