@@ -277,6 +277,18 @@ public class SchwerpunktModul extends AppCompatActivity {
                     intSoWiSe = 2;
                     v.setTag(0); //pause
                 }
+
+
+                // löschen aller einträge und checked items bei erneuter Auswahl des Schwerpunktes
+
+                if (arListmodule.size() > 0) {
+                    for (int i2 = 0; i2 < checkedItemsm.length; i2++) {
+                        checkedItemsm[i2] = false;
+                        mUserItemsm.clear();
+                        arListmodule.clear();
+                    }
+                    arrayAdapter1.notifyDataSetChanged();
+                }
             }
         });
 
