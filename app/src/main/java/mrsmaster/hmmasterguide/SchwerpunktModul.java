@@ -223,6 +223,17 @@ public class SchwerpunktModul extends AppCompatActivity {
 
                         listItemsbasismodule = compulsoryModulsArray;
 
+                        // löschen aller einträge und checked items bei erneuter Auswahl des Schwerpunktes
+
+                        if (arListmodule.size() > 0) {
+                            for (int i2 = 0; i2 < checkedItemsm.length; i2++) {
+                                checkedItemsm[i2] = false;
+                                mUserItemsm.clear();
+                                arListmodule.clear();
+                            }
+                            arrayAdapter1.notifyDataSetChanged();
+                        }
+
 
                     }
 
@@ -240,6 +251,9 @@ public class SchwerpunktModul extends AppCompatActivity {
 
 
                 mDialog.show();
+
+
+
 
 
 
@@ -449,7 +463,7 @@ public class SchwerpunktModul extends AppCompatActivity {
         listToWriteToSQLDB.add("Geo-Monitoring");
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
         databaseAccess.open();
-        databaseAccess.setChoosedModuls(listToWriteToSQLDB);
+//        databaseAccess.setChoosedModuls(listToWriteToSQLDB);
         databaseAccess.close();
     }
 }

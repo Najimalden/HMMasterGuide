@@ -1,6 +1,5 @@
 package mrsmaster.hmmasterguide;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -96,7 +95,7 @@ public class DatabaseAccess {
 
     }
 
-    public boolean setChoosedModuls (List<String> choosedModuls){
+/*   public boolean setChoosedModuls (List<String> choosedModuls){
         //Schreibt DB
         SQLiteDatabase db = openHelper.getWritableDatabase();
         //Tabelle erstellen
@@ -112,6 +111,6 @@ public class DatabaseAccess {
             return false;
         else
             return true;
-            }
+            }*/
 
 }
