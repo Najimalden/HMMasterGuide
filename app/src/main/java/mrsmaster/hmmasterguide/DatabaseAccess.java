@@ -1,5 +1,6 @@
 package mrsmaster.hmmasterguide;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -95,9 +96,16 @@ public class DatabaseAccess {
 
     }
 
-/*   public boolean setChoosedModuls (List<String> choosedModuls){
+        public boolean setChoosedModuls (List<String> choosedModuls){
         //Schreibt DB
         SQLiteDatabase db = openHelper.getWritableDatabase();
+        boolean check = tableExists(db,"ModuleDesKunden");
+            if(check){
+                //Tabelle löschen
+                String SQL_String = "DROP TABLE ModuleDesKunden";
+                db.execSQL(SQL_String);
+            }
+
         //Tabelle erstellen
         String SQL_String = "CREATE TABLE ModuleDesKunden ( " +
                             " ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -111,6 +119,16 @@ public class DatabaseAccess {
             return false;
         else
             return true;
-            }*/
+            }
 
+
+    private boolean tableExists(SQLiteDatabase db, String table){
+        String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='"+table+"'";
+        Cursor mCursor = db.rawQuery(sql, null);
+        if (mCursor.getCount() > 0) {
+            return true;
+        }
+        mCursor.close();
+        return false;
+    }
 }

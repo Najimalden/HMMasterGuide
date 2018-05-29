@@ -298,7 +298,6 @@ public class SchwerpunktModul extends AppCompatActivity {
         btnmodule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeToSQLDB();
                 // Übergabe aus der Datenbank der vorhandenen Module
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
                 databaseAccess.open();
@@ -390,6 +389,7 @@ public class SchwerpunktModul extends AppCompatActivity {
 //                      Listview listschwerp wird aktualisiert
                         arrayAdapter1.notifyDataSetChanged();
 
+                        writeToSQLDB();
 
 
                     }
@@ -432,10 +432,13 @@ public class SchwerpunktModul extends AppCompatActivity {
                 mDialog.show();
 
 
+
             }
 
 
-        });
+        }
+
+        );
 
     }
 
@@ -470,12 +473,14 @@ public class SchwerpunktModul extends AppCompatActivity {
     }
 
     public void writeToSQLDB (){
-        List<String> listToWriteToSQLDB = new ArrayList<String>();
-        listToWriteToSQLDB.add("Raumanalysen und regionale Planungsprozesse");
-        listToWriteToSQLDB.add("Geo-Monitoring");
+/*        List<String> listToWriteToSQLDB = new ArrayList<String>();
+        Integer length = arListmodule.size();
+        for (int i=0; i>length ;i++){
+            listToWriteToSQLDB.add(arListmodule.get(i));
+        }*/
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(SchwerpunktModul.this);
         databaseAccess.open();
-//        databaseAccess.setChoosedModuls(listToWriteToSQLDB);
+        databaseAccess.setChoosedModuls(arListmodule);
         databaseAccess.close();
     }
 }
