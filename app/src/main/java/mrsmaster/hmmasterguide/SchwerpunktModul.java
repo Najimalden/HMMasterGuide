@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class SchwerpunktModul extends AppCompatActivity {
 
-
+    Button btnCalendar;
     Button btnmodule;
     Button btnschwerpunkte;
 
@@ -440,6 +441,19 @@ public class SchwerpunktModul extends AppCompatActivity {
 
         );
 
+        // Button Kalender
+        btnCalendar = (Button)findViewById(R.id.btnCalendar);
+        btnCalendar.setOnClickListener(new OnClickListener() {
+            public void onClick(View arg0) {
+
+                // Start NewActivity.class
+                Intent myIntent = new Intent(SchwerpunktModul.this,
+                        calendar.class);
+                startActivity(myIntent);
+            }
+        });
+
+
     }
 
 
@@ -483,6 +497,10 @@ public class SchwerpunktModul extends AppCompatActivity {
         databaseAccess.setChoosedModuls(arListmodule);
         databaseAccess.close();
     }
+
+
+
+
 }
 
 
