@@ -26,5 +26,6 @@
         <item>Raumanalysen</item>
         <item>Geodateninfrastruktur</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

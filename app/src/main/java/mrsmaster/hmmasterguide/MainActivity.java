@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
                 final Intent intent1 = new Intent(this, SchwerpunktModul.class);
                 startActivity(intent1);
                 return true;
+            case R.id.second:
+                final Intent intent2 = new Intent(this, MapsActivity.class);
+                startActivity(intent2);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
