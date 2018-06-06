@@ -11,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -26,7 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        
+
 
 
 
@@ -47,10 +48,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
         // Add a marker in Sydney and move the camera
         LatLng hm = new LatLng(48.142758, 11.568434);
-        mMap.addMarker(new MarkerOptions().position(hm).title("Hochschule München (Karlstraße"));
+        mMap.addMarker(new MarkerOptions().position(hm).title("Hochschule München (Karlstraße").icon(BitmapDescriptorFactory.fromResource(R.drawable.hochschulelogo)));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(hm, 15));
+
 
 
 
